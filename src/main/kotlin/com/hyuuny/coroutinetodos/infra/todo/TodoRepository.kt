@@ -9,4 +9,6 @@ interface TodoRepository {
 
     suspend fun findById(id: UUID): Todo?
 
+    suspend fun update(todo: Todo): Todo
+
 }

@@ -15,4 +15,6 @@ class TodoRepositoryImpl(
     override suspend fun insert(todo: Todo): Todo = template.insert<Todo>(todo).awaitSingle()
 
     override suspend fun findById(id: UUID): Todo? = dao.findById(id)
+
+    override suspend fun update(todo: Todo): Todo = template.update<Todo>(todo).awaitSingle()
 }
