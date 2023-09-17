@@ -32,4 +32,9 @@ class TodoUseCase(
     private suspend fun loadTodo(id: UUID) =
         todoRepository.findById(id) ?: throw IllegalStateException("${id}번 Todo를 찾을 수 없습니다.")
 
+    suspend fun delete(id: UUID) {
+        val todo = loadTodo(id)
+        todoRepository.delete(todo.id)
+    }
+
 }
