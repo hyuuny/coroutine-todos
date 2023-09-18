@@ -1,5 +1,6 @@
 package com.hyuuny.coroutinetodos.domain.todo
 
+import com.hyuuny.coroutinetodos.application.command.todo.ChangeCompletedTodo
 import com.hyuuny.coroutinetodos.application.command.todo.CreateTodo
 import com.hyuuny.coroutinetodos.application.command.todo.UpdateTodo
 import com.hyuuny.coroutinetodos.common.constract.todo.TodoId
@@ -15,7 +16,7 @@ class Todo(
     val userId: UserId,
     title: String,
     content: String,
-    val completed: Boolean = false,
+    completed: Boolean = false,
     val createdAt: LocalDateTime,
     updatedAt: LocalDateTime,
 ) {
@@ -24,6 +25,9 @@ class Todo(
         private set
 
     var content: String = content
+        private set
+
+    var completed: Boolean = completed
         private set
 
     var updatedAt: LocalDateTime = updatedAt
@@ -50,8 +54,18 @@ class Todo(
         updatedAt = LocalDateTime.now()
     }
 
-    fun checkUser(userId: UUID) {
+    fun handle(command: ChangeCompletedTodo) {
+        this.completed = command.completed
+        updatedAt = LocalDateTime.now()
+    }
+
+    fun checkUser(userId: UUID): Todo {
         if (this.userId.value != userId) throw IllegalStateException("회원이 일치하지 않습니다.")
+        return this
+    }
+
+    fun checkCompleted() {
+        if (this.completed) throw IllegalStateException("이미 완료된 할일입니다.")
     }
 
 }

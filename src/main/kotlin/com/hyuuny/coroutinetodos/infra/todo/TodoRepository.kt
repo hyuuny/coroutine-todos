@@ -1,5 +1,6 @@
 package com.hyuuny.coroutinetodos.infra.todo
 
+import com.hyuuny.coroutinetodos.common.constract.user.UserId
 import com.hyuuny.coroutinetodos.domain.todo.Todo
 import java.util.*
 
@@ -12,4 +13,6 @@ interface TodoRepository {
     suspend fun update(todo: Todo): Todo
 
     suspend fun delete(id: UUID)
+
+    suspend fun findAllByUserIdOrderByCreatedAtDesc(userId: UserId): List<Todo>
 }

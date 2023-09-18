@@ -1,6 +1,8 @@
 package com.hyuuny.coroutinetodos.infra.todo
 
+import com.hyuuny.coroutinetodos.common.constract.user.UserId
 import com.hyuuny.coroutinetodos.domain.todo.Todo
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.reactor.awaitSingle
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate
 import org.springframework.stereotype.Component
@@ -21,4 +23,7 @@ class TodoRepositoryImpl(
     override suspend fun delete(id: UUID) {
         template.delete(id).awaitSingle()
     }
+
+    override suspend fun findAllByUserIdOrderByCreatedAtDesc(userId: UserId): List<Todo> =
+        dao.findAllByUserIdOrderByCreatedAtDesc(userId.value).toList()
 }
